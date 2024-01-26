@@ -1,0 +1,73 @@
+<div class="container">
+  <div class="table">
+    <table>
+      <thead>
+      <tr style="cursor: pointer" (click)="toggleAdd()">
+        <th colspan="6">
+          <div class="title">Add</div>
+        </th>
+      </tr>
+
+      <tr>
+        <th>Product Name</th>
+        <th>Type</th>
+        <th>Price</th>
+        <th>Rate</th>
+        <th>Quantity</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody id="reportList">
+        @for (product of productList; track product) {
+          <tr>
+            <td>{{product.name}}</td>
+            <td>{{product.type}}</td>
+            <td>{{product.price}}</td>
+            <td>{{product.rate}}</td>
+            <td>{{product.quantity}}</td>
+            <td (click)="toggleView(product)" style="cursor: pointer">Active</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal" [ngClass]="{accept: isAccepted ,active: isActive}" id="accept" >
+  <div class="modal-content">
+    <div class="row">
+      <span class="title">ADD NEW PRODUCT</span>
+      <span class="close" (click)="toggleAdd()"><i class="fa-solid fa-xmark"></i></span>
+    </div>
+
+    <label for="name">Product Name<span>*</span></label>
+    <input type="text" name="" id="name" [(ngModel)]="name" />
+
+    <label for="type">Product Type<span>*</span></label>
+    <input type="text" name="" id="type" [(ngModel)]="type"/>
+
+    <label for="price">Price<span>*</span></label>
+    <input type="text" name="" id="price" [(ngModel)]="price"/>
+
+    <label for="image">Image<span>*</span></label>
+    <input type="text" name="" id="image" [(ngModel)]="image"/>
+
+    <label for="rate">Rate<span>*</span></label>
+    <input type="text" name="" id="rate" [(ngModel)]="rate"/>
+
+    <label for="quantity">Quantity<span>*</span></label>
+    <input type="text" name="" id="quantity" [(ngModel)]="quantity"/>
+
+    <div class="btn">
+      @if (isAccepted) {
+        <button class="btn__save"  (click)="toggleAdd(); addProduct()">Save</button>
+      }
+      @if (isActive) {
+      <button class="btn__save"  (click)="toggleActive(); updateProduct()">Save</button>
+      <button class="btn__save"  (click)="toggleActive(); deleteProduct()">Delete</button>
+      }
+
+
+    </div>
+  </div>
+</div>

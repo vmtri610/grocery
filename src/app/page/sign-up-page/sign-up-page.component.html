@@ -1,0 +1,50 @@
+<main class="auth">
+  <div class="auth__intro">
+    <img src="./assets/img/intro.svg" alt="">
+  </div>
+  <div class="auth__content">
+    <div class="auth__content--inner">
+      <app-logo></app-logo>
+      <h1 class="auth__title">Sign Up</h1>
+      <p class="auth__desc">Let’s create your account and Shop like a pro and save money.</p>
+      <div class="form">
+        <div class="form__group">
+          <div class="form__text">
+            <input type="text"  placeholder="Email" [(ngModel)]="email">
+            <img src="./assets/icons/mail.svg" alt="">
+          </div>
+        </div>
+        <div class="form__group">
+          <div class="form__text">
+            <input type="password" placeholder="Password" [(ngModel)]="password">
+            <img src="./assets/icons/lock.svg" alt="">
+          </div>
+        </div>
+        <div class="form__group">
+          <div class="form__text">
+            <input type="password" placeholder="Confirm password" [(ngModel)]="confirm_password">
+            <img src="./assets/icons/lock.svg" alt="">
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <label class="form__checkbox">
+          <input type="checkbox" name="" id="" class="form__checkbox-input" />
+          <span class="form__checkbox-label">Set as default card</span>
+        </label>
+
+      </div>
+
+      <div class="btn" (click)="addUser()">
+        Sign Up
+      </div>
+
+      <p class="auth__text">
+        You have an account yet?
+        <span class="auth__link" [routerLink] =" ['/sign-in']" >Sign In</span>
+      </p>
+
+    </div>
+  </div>
+</main>

@@ -1,0 +1,39 @@
+/* Common */
+.content {
+  width: 1500px;
+  max-width: calc(100% - 30px);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.content h1 {
+  margin-top: 25px;
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: #262626;
+  margin-bottom: 20px;
+}
+
+.hero {
+  width: 100%;
+  display: flex;
+}
+
+.left {
+  width: 100%;
+  position: relative;
+}
+
+.active {
+  border-bottom: 3px solid #182fc6;
+}
+
+.right {
+  margin-left: 20px;
+  width: 40%;
+  border-left: #dadada 2px solid;
+  padding-left: 15px;
+}
+
+
+

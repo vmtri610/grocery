@@ -1,0 +1,27 @@
+<div class="product">
+  <h2 class="product__title">Product List</h2>
+  <div class="product__inner">
+
+    @for(product of productList; track $index ) {
+      <div class="product__item" >
+        <img [src]="product.image" alt="" class="productList__img" [routerLink]="['/product']" (click)="view(product)">
+        <button class="product__like" (click)="liked(product)">
+          @if(product.liked){
+            <img src="../../../assets/icons/red-heart.svg" alt="">
+          } @else
+          {
+            <img src="../../../assets/icons/heart.svg" alt="">
+          }
+        </button>
+        <div class="product__text">
+          <p class="product__name">{{ product.name }}</p>
+          <span class="product__type">{{ product.type }}</span>
+          <div class="product__row">
+            <span class="product__row--cost">{{ product.price | currency:'USD':'symbol':'1.2-2' }}</span>
+            <button class="product__row--rating"><img src="../../../assets/icons/star.svg" alt="">{{ product.rate | number:'.1-1' }}</button>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

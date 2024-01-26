@@ -1,0 +1,167 @@
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  &__title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 145.455%;
+  }
+}
+
+.footer {
+  margin-top: 30px;
+  padding: 50px ;
+  font-size: 1.4rem;
+  background: #eee;
+  &__row {
+    display: grid;
+    grid-template-columns: 2fr 1.3fr 1fr 1fr 1.5fr;
+    gap: 60px;
+  }
+
+  &__desc {
+    margin-top: 30px;
+    line-height: 1.5;
+  }
+
+  &__help-text {
+    margin-top: 40px;
+    line-height: 1.4;
+  }
+
+  &__heading {
+    text-transform: uppercase;
+    font-weight: 900;
+    font-size: 1.8rem;
+  }
+
+  &__list {
+    margin-top: 18px;
+  }
+
+  &__link,
+  &__text {
+    padding: 8px 0;
+    line-height: 1.4;
+  }
+
+  &__link {
+    display: inline-block;
+
+    &:hover {
+      color: #0071dc;
+    }
+  }
+
+  &__text,
+  &__copyright {
+    color: #1a162e;
+  }
+
+  &__label {
+    margin-top: 20px;
+    font-weight: 500;
+  }
+
+  &__form {
+    display: flex;
+    gap: 10px;
+    padding: 16px 0;
+  }
+
+  &__input {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 2px solid #d2d1d6;
+    font-size: 1.5rem;
+    font-weight: 500;
+
+    &::placeholder {
+      font-weight: 400;
+    }
+  }
+
+  &__bottom {
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__socials {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &__social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+
+    filter: grayscale(50%);
+    transition: translate, filter;
+    transition-duration: 0.3s;
+
+    &--facebook {
+      background: #4863a9;
+    }
+
+    &--youtube {
+      background: #f00;
+    }
+
+    &--tiktok {
+      background: #000;
+    }
+
+    &--twitter {
+      background: #4999e6;
+    }
+
+    &--linkedin {
+      background: #2f71ab;
+    }
+
+    &:hover {
+      filter: grayscale(0);
+      translate: 0 -3px;
+    }
+  }
+
+  &__social-icon {
+    width: 14px;
+    filter: brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(7482%)
+    hue-rotate(72deg) brightness(99%) contrast(99%);
+  }
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  height: 46px;
+  padding: 0 20px;
+  border-radius: 6px;
+
+  background: #f8f8fb;
+
+  font-size: 1.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+  user-select: none;
+
+  &--primary {
+    color: #171c28;
+    background: #ffb700;
+  }
+}

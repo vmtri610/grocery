@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "grocery-ce948": {
+      "hosting": {
+        "grocerystore": [
+          "grocery-ce948"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "grocery-ce948"
+  }
+}

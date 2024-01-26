@@ -1,0 +1,9 @@
+{
+  "hosting": [
+    {
+      "target": "grocerystore",
+      "source": ".",
+      "frameworksBackend": {}
+    }
+  ]
+}

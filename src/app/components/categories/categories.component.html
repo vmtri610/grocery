@@ -1,0 +1,15 @@
+<div class="browse">
+  <h2 class="browse__title">Browse Categories</h2>
+
+  <div class="browse__inner">
+    @for (category of category; track $index){
+      <div class="browse__item">
+        <img [src]="category.image" alt="" class="browse__img">
+        <div class="browse__text">
+          <span class="browse__cost">{{category.minPrice | currency:'USD'}} - {{category.maxPrice | currency:'USD'}}</span>
+          <p class="browse__desc">{{category.description}}</p>
+        </div>
+      </div>
+    }
+  </div>
+</div>
