@@ -6,5 +6,4 @@ export interface Product  {
     image: string,
     rate: number,
     quantity: number,
-    liked: boolean
 }

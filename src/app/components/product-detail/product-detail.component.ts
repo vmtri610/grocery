@@ -1,11 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {BreadcrumbsComponent} from "../breadcrumbs/breadcrumbs.component";
-import {Product} from "../../models/product.model";
 import {CurrencyPipe} from "@angular/common";
-import {RouterLink} from "@angular/router";
-import {ProductService} from "../../services/product.service";
-import {ProductManagementService} from "../../services/product-management.service";
-import {CartManaagementService} from "../../services/cart-manaagement.service";
+import {RouterLink, RouterLinkActive, ActivatedRoute} from "@angular/router";
+import {Product} from "../../models/product.model";
+import {Store} from "@ngrx/store";
+import {ProductState} from "../../states/product.state";
+import * as ProductActions from "../../actions/product.action";
+
 
 @Component({
   selector: 'app-product-detail',
@@ -13,34 +14,44 @@ import {CartManaagementService} from "../../services/cart-manaagement.service";
   imports: [
     BreadcrumbsComponent,
     CurrencyPipe,
-    RouterLink
+    RouterLink,
+    RouterLinkActive
   ],
   templateUrl: './product-detail.component.html',
   styleUrl: './product-detail.component.scss'
 })
 export class ProductDetailComponent implements OnInit{
-  product = this.cartManagementService.productView[0]
 
+  productState$ = this.store.select('product');
 
-  constructor(private productService: ProductService, private productManagementService: ProductManagementService,
-              private cartManagementService: CartManaagementService)
-  {}
-
-  buyProduct(product: Product | undefined) {
-    this.productService.addToCart(product);
-    if (product) {
-      this.productService.addQuantity(product)
-    }
-  }
-
-  liked(product: Product | undefined) {
-    if (product) {
-      this.product.liked = !this.product.liked;
-      this.productManagementService.updateProduct(product).then();
-    }
-  }
+  product: Product | null = null;
+  constructor(private store: Store<{ product: ProductState }>, private activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
-    console.log(this.product)
+
+    this.productState$.subscribe((state) => {
+      console.log(state);
+    });
+
+    this.activatedRoute.params.subscribe((params) => {
+      const productId = params['id'];
+
+      // Dispatch action khi đã có productId từ URL
+      this.store.dispatch(ProductActions.getById(productId));
+    });
+
+    this.store.select('product').subscribe((product) => {
+      this.product = {
+        id: product.id,
+        name: product.name,
+        type: product.type,
+        price: product.price,
+        image: product.image,
+        rate: product.rate,
+        quantity: product.quantity,
+      };
+    });
+
   }
+
 }

@@ -11,14 +11,14 @@
 
           <div class="form__group">
             <div class="form__text">
-              <input type="text"  placeholder="Email" [(ngModel)]="email" >
+              <input type="text"  placeholder="Email" autocomplete="off">
               <img src="./assets/icons/mail.svg" alt="">
             </div>
           </div>
 
             <div class="form__group">
               <div class="form__text">
-                <input type="password"  placeholder="Password" [(ngModel)]="password">
+                <input type="password"  placeholder="Password" autocomplete="off">
                 <img src="./assets/icons/lock.svg" alt="">
               </div>
             </div>
@@ -34,7 +34,7 @@
           <a href="#!" class="auth__link">Forgot password?</a>
         </div>
 
-        <div class="btn" (click)="checkUser()" >
+        <div class="btn"  (click)="signInWithGoogle()">
           Login
         </div>
 

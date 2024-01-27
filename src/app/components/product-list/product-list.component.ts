@@ -1,70 +1,46 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {AsyncPipe, CurrencyPipe, DecimalPipe} from "@angular/common";
+import { RouterLink, RouterOutlet} from "@angular/router";
 import {Product} from "../../models/product.model";
-import {CurrencyPipe, DecimalPipe} from "@angular/common";
-import {RouterLink} from "@angular/router";
-import {ProductService} from "../../services/product.service";
-import {ProductManagementService} from "../../services/product-management.service";
-import {DocumentData} from "@angular/fire/compat/firestore";
-import {CartManaagementService} from "../../services/cart-manaagement.service";
+import {Store} from "@ngrx/store";
+import {ProductState} from "../../states/product.state";
+import * as ProductActions from "../../actions/product.action";
+
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
   imports: [
     CurrencyPipe,
-    DecimalPipe, RouterLink
+    DecimalPipe, RouterLink, RouterOutlet, AsyncPipe
   ],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.scss'
 })
 export class ProductListComponent implements OnInit{
 
-  productList : Product[] = [];
-  // @Input() product!: Product[];
-  constructor(private productService: ProductService, private productManagementService: ProductManagementService,
-              private cartManagementService: CartManaagementService) { }
+  productState$ = this.store.select('product');
+  products$ = this.store.select((state) => state.product.products)
 
-
-  liked(product: Product) {
-    product.liked = !product.liked;
-    this.productManagementService.updateProduct(product).then();
+  product: Product = {
+    id: '',
+    name: '',
+    type: '',
+    price: 0,
+    image: '',
+    rate: 0,
+    quantity: 0,
   }
-
-  view(product: Product) {
-    this.cartManagementService.addCart({
-      id: ' ',
-      isView: true,
-      product: {
-        product: product,
-        quantity: 0,
-      }
-    }).then();
-    this.cartManagementService.getCart(
-      {
-        id: ' ',
-        isView: true,
-        product: {
-          product: product,
-          quantity: 0,
-        }
-      }
-    ).then()
-  }
+  constructor(private store: Store<{ product: ProductState }>) {}
 
   ngOnInit(): void {
-    this.productManagementService.getAllProduct().then(() => {
-      this.productList = this.productManagementService.prodList.map((userData: DocumentData) => {
-        return {
-          id: userData['id'] as string,
-          name: userData['name'] as string,
-          type: userData['type'] as string,
-          price: userData['price'] as number,
-          image: userData['image'] as string,
-          rate: userData['rate'] as number,
-          quantity: userData['quantity'] as number,
-          liked: userData['liked'] as boolean
-        };
-      });
-    })
+
+    this.productState$.subscribe((state) => {
+      console.log(state);
+    });
+
+    this.store.dispatch(ProductActions.getAllProducts());
+
   }
+
 }
