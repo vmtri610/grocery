@@ -39,7 +39,7 @@ export class ProductService {
     return setDoc(productDocRef, product);
   }
 
-  getById(id: string) {
+  getById(id: string  ) {
     const productDocRef = doc(this.db, 'products', id);
     return getDoc(productDocRef);
   }

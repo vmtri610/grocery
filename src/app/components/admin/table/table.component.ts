@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AsyncPipe, NgClass} from "@angular/common";
 import {Store} from "@ngrx/store";
-import {ProductState} from "../../../states/product.state";
-import * as ProductActions from "../../../actions/product.action";
+import {ProductState} from "../../../ngrx/states/product.state";
+import * as ProductActions from "../../../ngrx/actions/product.action";
 import {Product} from "../../../models/product.model";
 
 
@@ -72,7 +72,7 @@ export class TableComponent  implements OnInit{
   }
 
   viewProduct(product: Product) {
-    this.productView = product;
+    this.productView = {...product};
   }
 
   deleteProduct() {

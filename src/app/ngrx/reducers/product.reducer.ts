@@ -69,4 +69,22 @@ export const productReducer = createReducer(initialState,
         error: error,
         isLoading: false
     })),
+    on(ProductActions.getById, (state, {id}) => {
+        const getProduct = [...state.products];
+        const index = getProduct.findIndex((p) => p.id === id);
+
+        if (index !== -1) {
+            getProduct[0] = getProduct[index];
+        }
+        return { ...state, products: getProduct, isLoading: true };
+    }),
+    on(ProductActions.getByIdSuccess, (state) => ({
+        ...state,
+        isLoading: false
+    })),
+    on(ProductActions.getByIdFailure, (state, {error}) => ({
+        ...state,
+        error: error,
+        isLoading: false
+    })),
 );

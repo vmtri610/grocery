@@ -1,9 +1,9 @@
 import {Injectable} from "@angular/core";
 import {Actions, createEffect, ofType} from "@ngrx/effects";
-import {ProductService} from "../services/product.service";
+import {ProductService} from "../../services/product.service";
 import * as ProductActions from '../actions/product.action';
 import {switchMap, of, from, map, catchError} from "rxjs";
-import {Product} from "../models/product.model";
+import {Product} from "../../models/product.model";
 
 @Injectable()
 export class ProductEffect {
@@ -54,7 +54,7 @@ export class ProductEffect {
     switchMap((action) => from(this.productService.getById(action.id))),
     map((doc) => {
       let product = <Product>doc.data();
-      return ProductActions.getByIdSuccess({product:product});
+      return ProductActions.getByIdSuccess();
     }),
     catchError((error) => {
       return of(ProductActions.getByIdFailure({error:error}))}

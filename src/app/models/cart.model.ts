@@ -1,12 +1,12 @@
 import {Product} from "./product.model";
 
 export interface Cart {
-  id: string;
-  isView: boolean;
-  product :{
+  cartId: string;
+  userId: string;
+  products :[{
     product: Product;
     quantity: number;
-}
+  }]
 }
 
 

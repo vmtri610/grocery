@@ -8,9 +8,13 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import {provideState, provideStore } from '@ngrx/store';
-import {productReducer} from "./reducers/product.reducer";
+import {productReducer} from "./ngrx/reducers/product.reducer";
 import { provideEffects } from '@ngrx/effects';
-import { ProductEffect } from "./effects/product.effect";
+import { ProductEffect } from "./ngrx/effects/product.effect";
+import {cartReducer} from "./ngrx/reducers/cart.reducer";
+import {CartEffect} from "./ngrx/effects/cart.effect";
+import {userReducer} from "./ngrx/reducers/user.reducer";
+import {UserEffect} from "./ngrx/effects/user.effect";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,7 +26,11 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(provideFirestore(() => getFirestore())),
     provideStore(),
     provideState({ name: 'product', reducer: productReducer }),
+    provideState({ name: 'cart', reducer: cartReducer }),
+    provideState({ name: 'user', reducer: userReducer }),
     provideEffects(),
     provideEffects(ProductEffect),
+    provideEffects(CartEffect),
+    provideEffects(UserEffect),
 ]
 };

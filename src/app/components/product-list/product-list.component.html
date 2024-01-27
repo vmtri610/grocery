@@ -4,7 +4,7 @@
 
     @for(product of products$ | async; track $index ) {
       <div class="product__item" >
-        <img [src]="product.image" alt="" class="productList__img" >
+        <img [src]="product.image" alt="" class="productList__img" (click)="viewDetail(product)" >
         <button class="product__like" >
             <img src="../../../assets/icons/red-heart.svg" alt="">
         </button>
@@ -21,4 +21,3 @@
   </div>
 </div>
 
-<router-outlet></router-outlet>
