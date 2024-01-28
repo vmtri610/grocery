@@ -1,16 +1,16 @@
-import {Component, OnInit} from '@angular/core';
-import {BreadcrumbsComponent} from "../breadcrumbs/breadcrumbs.component";
-import {AsyncPipe, CurrencyPipe} from "@angular/common";
-import {RouterLink, RouterLinkActive, ActivatedRoute} from "@angular/router";
-import {Product} from "../../models/product.model";
-import {Store} from "@ngrx/store";
-import {ProductState} from "../../ngrx/states/product.state";
-import * as ProductActions from "../../ngrx/actions/product.action";
-import {CartState} from "../../ngrx/states/cart.state";
-import * as CartActions from "../../ngrx/actions/cart.action";
-import {UserState} from "../../ngrx/states/user.state";
-import * as UserActions from "../../ngrx/actions/user.action";
-
+import { Component, OnInit } from '@angular/core';
+import { BreadcrumbsComponent } from '../breadcrumbs/breadcrumbs.component';
+import { AsyncPipe, CurrencyPipe } from '@angular/common';
+import { RouterLink, RouterLinkActive, ActivatedRoute } from '@angular/router';
+import { Product } from '../../models/product.model';
+import { Store } from '@ngrx/store';
+import { ProductState } from '../../ngrx/states/product.state';
+import * as ProductActions from '../../ngrx/actions/product.action';
+import { CartState } from '../../ngrx/states/cart.state';
+import * as CartActions from '../../ngrx/actions/cart.action';
+import { UserState } from '../../ngrx/states/user.state';
+import * as UserActions from '../../ngrx/actions/user.action';
+import { CartItem } from '../../models/cart.model';
 
 @Component({
   selector: 'app-product-detail',
@@ -20,20 +20,27 @@ import * as UserActions from "../../ngrx/actions/user.action";
     CurrencyPipe,
     RouterLink,
     RouterLinkActive,
-    AsyncPipe
+    AsyncPipe,
   ],
   templateUrl: './product-detail.component.html',
-  styleUrl: './product-detail.component.scss'
+  styleUrl: './product-detail.component.scss',
 })
-export class ProductDetailComponent implements OnInit{
-
+export class ProductDetailComponent implements OnInit {
   productState$ = this.store.select('product');
   cartState$ = this.store.select('cart');
-  productDetail$ = this.store.select((state) => state.product.products[0])
+  productDetail$ = this.store.select((state) => state.product.products[0]);
   cartId: string = '';
 
-  constructor(private store: Store<{ product: ProductState, cart: CartState, user: UserState }>, private activatedRoute: ActivatedRoute) {
-  }
+  userId$ = this.store.select('user', 'userId');
+
+  constructor(
+    private store: Store<{
+      product: ProductState;
+      cart: CartState;
+      user: UserState;
+    }>,
+    private activatedRoute: ActivatedRoute,
+  ) {}
 
   productDetail: Product = {
     id: '',
@@ -45,23 +52,43 @@ export class ProductDetailComponent implements OnInit{
     quantity: 0,
   };
 
-  ngOnInit(): void {
+  cartItem: CartItem = {
+    product: this.productDetail,
+    quantity: 1,
+  };
 
+  ngOnInit(): void {
     this.productState$.subscribe((state) => {
       console.log(state);
     });
-
     this.cartState$.subscribe((state) => {
       console.log(state);
     });
-
     const productId = this.activatedRoute.snapshot.params['id'];
-    this.store.dispatch(ProductActions.getById({id: productId}));
+    this.store.dispatch(ProductActions.getById({ id: productId }));
+
     this.productDetail$.subscribe((product) => {
-      this.productDetail = product;
+      if (product !== undefined) {
+        // this.productDetail = product;
+        this.cartItem.product = product;
+        console.log(this.cartItem);
+      }
+    });
+
+    this.userId$.subscribe((userId) => {
+      if (userId !== '') {
+        this.cartId = userId;
+        console.log(this.cartId);
+      }
     });
   }
 
-
-
+  addToCart(cartItem: CartItem, cartId: string) {
+    this.store.dispatch(
+      CartActions.addProductToCart({
+        cartId: cartId,
+        cartItem: cartItem,
+      }),
+    );
+  }
 }

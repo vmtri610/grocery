@@ -1,8 +1,8 @@
-import {Product} from "./product.model";
+import { Product } from './product.model';
 
 export interface Cart {
   id: string;
-  products : CartItem[];
+  products: CartItem[];
 }
 
 export interface CartItem {

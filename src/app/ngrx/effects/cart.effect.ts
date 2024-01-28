@@ -1,45 +1,40 @@
-import {Injectable} from "@angular/core";
-import {Actions, createEffect, ofType} from "@ngrx/effects";
-import {CartService} from "../../services/cart.service";
-import {switchMap, of, from, map, catchError} from "rxjs";
-import * as CartActions from '../actions/cart.action';
-import {Cart} from "../../models/cart.model";
+import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { CartService } from '../../services/cart.service';
 
+import * as CartAction from '../actions/cart.action';
+import { catchError, map, of, switchMap } from 'rxjs';
 
 @Injectable()
 export class CartEffect {
+  constructor(
+    private actions$: Actions,
+    private cartService: CartService,
+  ) {}
 
-  constructor(private actions$: Actions, private cartService: CartService) {}
-
-  addNewCart$ = createEffect(() => {
-      return this.actions$.pipe(ofType(CartActions.addNewCart),
-        switchMap((action) => from(this.cartService.addNewCart(action.cart))),
-        map(() => {
-          return CartActions.addNewCartSuccess()
+  addNewCart$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CartAction.addNewCart),
+      switchMap((action) =>
+        this.cartService.addNewCart(action.cart).then(() => {
+          return CartAction.addNewCartSuccess();
         }),
-        catchError((error) => {
-            return of(CartActions.addNewCartFailure({error: error}))
-          }
-        )
-      );
-    }
+      ),
+      catchError((error) => of(CartAction.addNewCartFailure({ error }))),
+    ),
   );
 
-  addProductToCart$ = createEffect(() =>
-    this.actions$.pipe(ofType(CartActions.addProductToCart),
-      switchMap((action) => from(this.cartService.addProductToCart(action.cartId, action.product, action.quantity))),
-      map((querySnapshot) => {
-        let cart = <Cart>querySnapshot.data();
-        return CartActions.addProductToCartSuccess({cart:cart})
-      }),
-      catchError((error) => {
-        return of(CartActions.addProductToCartFailure({error:error}))}
-      )
-    )
+  addToCart$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CartAction.addProductToCart),
+      switchMap((action) =>
+        this.cartService
+          .addProductToCart(action.cartItem, action.cartId)
+          .then(() => {
+            return CartAction.addProductToCartSuccess();
+          }),
+      ),
+      catchError((error) => of(CartAction.addProductToCartFailure({ error }))),
+    ),
   );
-
-
-
-
-
 }

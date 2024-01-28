@@ -1,48 +1,40 @@
-import {CartState} from "../states/cart.state";
-import {createReducer, on} from "@ngrx/store";
-import * as CartActions from "../actions/cart.action";
-import {Product} from "../../models/product.model";
+import { CartState } from '../states/cart.state';
+import { createReducer, on } from '@ngrx/store';
+import * as CartActions from '../actions/cart.action';
+import { Product } from '../../models/product.model';
+import { Cart } from '../../models/cart.model';
 
 const initialState: CartState = {
-  carts: [],
+  cart: <Cart>{},
   isLoading: false,
   error: '',
 };
 
-export const cartReducer = createReducer(initialState,
-  on(CartActions.addNewCart, (state) => {
-    return {...state, isLoading: true};
-  }
-  ),
-  on(CartActions.addNewCartSuccess, (state, ) => {
-    return {...state, isLoading: false};
-  }
-  ),
-  on(CartActions.addNewCartFailure, (state, action) => {
-    return {...state, isLoading: false, error: action.error};
-  }
-  ),
-  on(CartActions.addProductToCart, (state, {cartId , product , quantity }) => {
-    let newCarts = [...state.carts];
-    let cart = newCarts[0];
-    let productIndex = cart.products.findIndex(p => p.product.id === product.id);
-    if (productIndex === -1) {
-      cart.products = [...cart.products, {product, quantity}];
-    } else {
-      cart.products[productIndex].quantity += quantity;
-    }
-    return {...state, isLoading: true, carts: newCarts};
-  }
-  ),
-  on(CartActions.addProductToCartSuccess, (state) => {
-    return {...state, isLoading: false};
-  }
-  ),
-  on(CartActions.addProductToCartFailure, (state, action) => {
-    return {...state, isLoading: false, error: action.error};
-  }
-  ),
+export const cartReducer = createReducer(
+  initialState,
+  on(CartActions.addNewCart, (state, { type }) => {
+    console.log(type);
+    return { ...state, isLoading: true };
+  }),
+  on(CartActions.addNewCartSuccess, (state, { type }) => {
+    console.log(type);
+    return { ...state, isLoading: false };
+  }),
+  on(CartActions.addNewCartFailure, (state, { type, error }) => {
+    console.log(type);
+    return { ...state, isLoading: false, error: error };
+  }),
+
+  on(CartActions.addProductToCart, (state, { type, cartItem }) => {
+    console.log(type);
+    return { ...state, isLoading: true };
+  }),
+  on(CartActions.addProductToCartSuccess, (state, { type }) => {
+    console.log(type);
+    return { ...state, isLoading: false };
+  }),
+  on(CartActions.addProductToCartFailure, (state, { type, error }) => {
+    console.log(type);
+    return { ...state, isLoading: false, error: error };
+  }),
 );
-
-
-

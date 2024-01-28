@@ -1,21 +1,24 @@
-import {Injectable} from "@angular/core";
-import {Actions, createEffect, ofType} from "@ngrx/effects";
-import {UserService} from "../../services/user.service";
+import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { UserService } from '../../services/user.service';
 import * as UserActions from '../actions/user.action';
-import {switchMap, of, from, map, catchError} from "rxjs";
-import {User} from "../../models/user.model";
+import { switchMap, of, from, map, catchError } from 'rxjs';
 
 @Injectable()
 export class UserEffect {
-  constructor(private actions$: Actions, private userService: UserService) {}
+  constructor(
+    private actions$: Actions,
+    private userService: UserService,
+  ) {}
 
   addUser$ = createEffect(() =>
-    this.actions$.pipe(ofType(UserActions.addUser),
+    this.actions$.pipe(
+      ofType(UserActions.addUser),
       switchMap((action) => from(this.userService.addUser(action.user))),
       map(() => UserActions.addUserSuccess()),
       catchError((error) => {
-        return of(UserActions.addUserFailure({error:error}))}
-      )
-    )
+        return of(UserActions.addUserFailure({ error: error }));
+      }),
+    ),
   );
 }
