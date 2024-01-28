@@ -1,7 +1,8 @@
-import {User} from "../../models/user.model";
+import { User } from '../../models/user.model';
 
 export interface UserState {
-  users: User[];
+  userId: string;
+  user: User;
   isLoading: boolean;
   error: string;
 }

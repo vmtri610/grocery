@@ -1,8 +1,7 @@
-import {Cart} from "../../models/cart.model";
-
+import { Cart } from '../../models/cart.model';
 
 export interface CartState {
-  carts: Cart[];
+  cart: Cart;
   isLoading: boolean;
   error: string;
 }
