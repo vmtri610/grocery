@@ -11,9 +11,10 @@ export class CartService {
   constructor(private db: Firestore) { }
 
   async addNewCart(cart: Cart) {
-    const docRef = await addDoc(collection(this.db, 'carts'), cart);
-    const cartId = docRef.id;
-    return await setDoc(doc(this.db, 'carts', cartId), {id: cartId}, {merge: true});
+      const docRef = await addDoc(collection(this.db, 'carts'), cart);
+      const cartId = docRef.id;
+      await setDoc(doc(this.db, 'carts', cartId), {id: cartId}, {merge: true});
+      return getDoc(doc(this.db, 'carts', cartId));
   }
 
   async addProductToCart(cartId: string, product: Product, quantity: number) {
@@ -53,5 +54,10 @@ export class CartService {
       // Nếu giỏ hàng không tồn tại, bạn có thể xử lý tùy ý (ví dụ: tạo giỏ hàng mới)
       console.log('Giỏ hàng không tồn tại.');
     }
+    return getDoc(cartRef);
   }
+
+
+
+
 }

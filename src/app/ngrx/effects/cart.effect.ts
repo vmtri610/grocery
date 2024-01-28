@@ -14,7 +14,10 @@ export class CartEffect {
   addNewCart$ = createEffect(() =>
     this.actions$.pipe(ofType(CartActions.addNewCart),
       switchMap((action) => from(this.cartService.addNewCart(action.cart))),
-      map(() => CartActions.addNewCartSuccess()),
+      map((querySnapshot) => {
+        let cart = <Cart>querySnapshot.data();
+        return CartActions.addNewCartSuccess({cart:cart})
+      }),
       catchError((error) => {
         return of(CartActions.addNewCartFailure({error:error}))}
       )
@@ -24,7 +27,10 @@ export class CartEffect {
   addProductToCart$ = createEffect(() =>
     this.actions$.pipe(ofType(CartActions.addProductToCart),
       switchMap((action) => from(this.cartService.addProductToCart(action.cartId, action.product, action.quantity))),
-      map(() => CartActions.addProductToCartSuccess()),
+      map((querySnapshot) => {
+        let cart = <Cart>querySnapshot.data();
+        return CartActions.addProductToCartSuccess({cart:cart})
+      }),
       catchError((error) => {
         return of(CartActions.addProductToCartFailure({error:error}))}
       )
