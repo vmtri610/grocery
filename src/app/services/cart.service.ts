@@ -11,10 +11,8 @@ export class CartService {
   constructor(private db: Firestore) { }
 
   async addNewCart(cart: Cart) {
-      const docRef = await addDoc(collection(this.db, 'carts'), cart);
-      const cartId = docRef.id;
-      await setDoc(doc(this.db, 'carts', cartId), {id: cartId}, {merge: true});
-      return getDoc(doc(this.db, 'carts', cartId));
+
+    return await setDoc(doc(this.db, 'carts') , cart);
   }
 
   async addProductToCart(cartId: string, product: Product, quantity: number) {

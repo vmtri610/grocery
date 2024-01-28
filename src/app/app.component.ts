@@ -55,8 +55,7 @@ export class AppComponent implements OnInit{
           }));
           this.store.dispatch(CartAction.addNewCart({
             cart: {
-              cartId: '',
-              userId: users.uid,
+              id: users.uid,
               products :[{
                 product: this.product,
                 quantity: 0,

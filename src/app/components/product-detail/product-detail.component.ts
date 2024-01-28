@@ -29,7 +29,6 @@ export class ProductDetailComponent implements OnInit{
 
   productState$ = this.store.select('product');
   cartState$ = this.store.select('cart');
-  cartId$ = this.store.select((state) => state.cart.carts[0].cartId);
   productDetail$ = this.store.select((state) => state.product.products[0])
   cartId: string = '';
 
@@ -63,11 +62,6 @@ export class ProductDetailComponent implements OnInit{
     });
   }
 
-  addProductToCart(product: Product) {
-    this.cartId$.subscribe((cartId) => {
-      this.cartId = cartId;
-    });
-    this.store.dispatch(CartActions.addProductToCart({cartId: this.cartId, product: product, quantity: 1}));
-  }
+
 
 }

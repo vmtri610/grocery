@@ -14,9 +14,8 @@ export const cartReducer = createReducer(initialState,
     return {...state, isLoading: true};
   }
   ),
-  on(CartActions.addNewCartSuccess, (state, {cart}) => {
-    let newCarts = [...state.carts, cart];
-    return {...state, isLoading: false, carts: newCarts};
+  on(CartActions.addNewCartSuccess, (state, ) => {
+    return {...state, isLoading: false};
   }
   ),
   on(CartActions.addNewCartFailure, (state, action) => {
@@ -28,7 +27,7 @@ export const cartReducer = createReducer(initialState,
     let cart = newCarts[0];
     let productIndex = cart.products.findIndex(p => p.product.id === product.id);
     if (productIndex === -1) {
-      cart.products.push({product: product, quantity: quantity});
+      cart.products = [...cart.products, {product, quantity}];
     } else {
       cart.products[productIndex].quantity += quantity;
     }

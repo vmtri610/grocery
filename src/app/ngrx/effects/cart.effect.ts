@@ -11,17 +11,18 @@ export class CartEffect {
 
   constructor(private actions$: Actions, private cartService: CartService) {}
 
-  addNewCart$ = createEffect(() =>
-    this.actions$.pipe(ofType(CartActions.addNewCart),
-      switchMap((action) => from(this.cartService.addNewCart(action.cart))),
-      map((querySnapshot) => {
-        let cart = <Cart>querySnapshot.data();
-        return CartActions.addNewCartSuccess({cart:cart})
-      }),
-      catchError((error) => {
-        return of(CartActions.addNewCartFailure({error:error}))}
-      )
-    )
+  addNewCart$ = createEffect(() => {
+      return this.actions$.pipe(ofType(CartActions.addNewCart),
+        switchMap((action) => from(this.cartService.addNewCart(action.cart))),
+        map(() => {
+          return CartActions.addNewCartSuccess()
+        }),
+        catchError((error) => {
+            return of(CartActions.addNewCartFailure({error: error}))
+          }
+        )
+      );
+    }
   );
 
   addProductToCart$ = createEffect(() =>
