@@ -2,22 +2,22 @@
   <div class="container">
     <div class="top-bar">
       <!-- Logo -->
-      <app-logo></app-logo>
+      <app-logo [routerLink]="['/home/product-list']"></app-logo>
 
       <!-- Navbar -->
       <nav class="navbar">
         <ul class="navbar__list">
           <li>
             <a href="" class="navbar__link"
-            >Departments<img
-              src="../../../assets/icons/arrow-down.svg"
-              alt=""
-              class="navbar__arrow"
+              >Departments<img
+                src="../../../assets/icons/arrow-down.svg"
+                alt=""
+                class="navbar__arrow"
             /></a>
           </li>
           <li>
             <a href="" class="navbar__link"
-            >Grocery
+              >Grocery
               <img
                 src="../../../assets/icons/arrow-down.svg"
                 alt=""
@@ -27,7 +27,7 @@
           </li>
           <li>
             <a href="" class="navbar__link"
-            >Beauty
+              >Beauty
               <img
                 src="../../../assets/icons/arrow-down.svg"
                 alt=""
@@ -42,26 +42,43 @@
       <div class="top-act">
         <div class="top-act__group top-act__group--single">
           <button class="top-act__btn">
-            <img src="../../../assets/icons/search.svg" alt="" class="top-act__icon" />
+            <img
+              src="../../../assets/icons/search.svg"
+              alt=""
+              class="top-act__icon"
+            />
           </button>
         </div>
 
         <div class="top-act__group">
           <button class="top-act__btn">
-            <img src="../../../assets/icons/heart.svg" alt="" class="top-act__icon" />
+            <img
+              src="../../../assets/icons/heart.svg"
+              alt=""
+              class="top-act__icon"
+            />
             <span class="top-act__title">0</span>
           </button>
 
           <div class="top-act__separate"></div>
 
-          <button class="top-act__btn" [routerLink]="['/checkout']" >
-            <img src="../../../assets/icons/buy.svg" alt="" class="top-act__icon" />
+          <button class="top-act__btn" [routerLink]="['/home/checkout']">
+            <img
+              src="../../../assets/icons/buy.svg"
+              alt=""
+              class="top-act__icon"
+            />
             <span class="top-act__title">0</span>
           </button>
         </div>
 
         <div class="top-act__user">
-          <img src="../../../assets/img/avatar.jpg" alt="" class="top-act__avatar" />
+          <img
+            src="../../../assets/img/avatar.jpg"
+            alt=""
+            class="top-act__avatar"
+            (click)="logout()"
+          />
         </div>
       </div>
     </div>

@@ -4,7 +4,7 @@
     </div>
     <div class="auth__content">
       <div class="auth__content--inner">
-        <app-logo></app-logo>
+          <app-logo ></app-logo>
         <h1 class="auth__title">Hello Again!</h1>
         <p class="auth__desc">Welcome back to sign in. As a returning customer, you have access to your previously saved all information.</p>
         <div class="form">
@@ -34,8 +34,13 @@
           <a href="#!" class="auth__link">Forgot password?</a>
         </div>
 
-        <div class="btn"  (click)="signInWithGoogle()">
-          Login
+        <div class="btn">
+          Sign In
+        </div>
+
+        <div class="btn-google"  (click)="signInWithGoogle()">
+          <img class="img-google" src="./assets/icons/google.svg" alt="">
+          Sign In With Google
         </div>
 
         <p class="auth__text">

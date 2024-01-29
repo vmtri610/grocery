@@ -5,7 +5,7 @@ import {
   TuiAlertModule,
   TUI_SANITIZER,
 } from '@taiga-ui/core';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SharedModule } from './shared/shared.module';
 import { NavbarComponent } from './components/admin/navbar/navbar.component';
 import { TableComponent } from './components/admin/table/table.component';
@@ -14,10 +14,11 @@ import { SignUpPageComponent } from './page/sign-up-page/sign-up-page.component'
 import { Auth, getAuth, onAuthStateChanged, user } from '@angular/fire/auth';
 import { Store } from '@ngrx/store';
 import { CartState } from './ngrx/states/cart.state';
-import * as CartAction from './ngrx/actions/cart.action';
 import * as UserAction from './ngrx/actions/user.action';
 import { Product } from './models/product.model';
 import { UserState } from './ngrx/states/user.state';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -36,9 +37,7 @@ import { UserState } from './ngrx/states/user.state';
   styleUrl: './app.component.scss',
   providers: [{ provide: TUI_SANITIZER, useClass: NgDompurifySanitizer }],
 })
-export class AppComponent implements OnInit {
-  cartState$ = this.store.select('cart');
-  userState$ = this.store.select('user');
+export class AppComponent {
   product: Product = {
     id: '',
     name: '',
@@ -52,6 +51,7 @@ export class AppComponent implements OnInit {
   constructor(
     private auth: Auth,
     private store: Store<{ cart: CartState; user: UserState }>,
+    private router: Router,
   ) {
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -70,31 +70,13 @@ export class AppComponent implements OnInit {
               },
             }),
           );
-          this.store.dispatch(
-            CartAction.addNewCart({
-              cart: {
-                id: users.uid,
-                products: [
-                  {
-                    product: this.product,
-                    quantity: 0,
-                  },
-                ],
-              },
-            }),
-          );
+          this.router.navigate(['/home']).then();
         } else {
           console.log('User is not authenticated.');
         }
       } else {
         console.log('User is signed out');
       }
-    });
-  }
-
-  ngOnInit(): void {
-    this.cartState$.subscribe((state) => {
-      console.log(state);
     });
   }
 }

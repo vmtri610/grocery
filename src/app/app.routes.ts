@@ -7,7 +7,7 @@ export const routes: Routes = [
   {path: 'admin', loadChildren: () => import('./page/admin-page/admin-page.routes').then(mod => mod.AdminPageRoutes)},
   {
     path:'',
-    redirectTo: 'home',
+    redirectTo: 'sign-in',
     pathMatch: 'full'
   },
 

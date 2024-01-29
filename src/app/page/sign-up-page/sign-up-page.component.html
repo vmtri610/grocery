@@ -4,7 +4,7 @@
   </div>
   <div class="auth__content">
     <div class="auth__content--inner">
-      <app-logo></app-logo>
+      <app-logo ></app-logo>
       <h1 class="auth__title">Sign Up</h1>
       <p class="auth__desc">Let’s create your account and Shop like a pro and save money.</p>
       <div class="form">
@@ -40,11 +40,16 @@
         Sign Up
       </div>
 
+      <div class="btn-google"  (click)="signInWithGoogle()">
+        <img class="img-google" src="./assets/icons/google.svg" alt="">
+        Sign In With Google
+      </div>
+
       <p class="auth__text">
         You have an account yet?
-        <span class="auth__link" (click)="logOut()">Sign In</span>
+        <span class="auth__link" [routerLink]="['/sign-in']" >Sign In</span>
       </p>
-
     </div>
+
   </div>
 </main>

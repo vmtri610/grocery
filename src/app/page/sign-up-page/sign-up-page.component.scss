@@ -1,7 +1,6 @@
 .auth {
   display: flex;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
 
   &__intro {
     width: 50%;
@@ -117,7 +116,7 @@
       }
 
       .auth__text {
-        margin-top: 40px;
+        margin-top: 50px;
         color: #9e9da8;
         font-size: 1.7rem;
         font-weight: 500;
@@ -156,4 +155,34 @@
 
 .btn:active {
   opacity: 0.8;
+}
+
+.btn-google
+{
+  width: 100%;
+  margin-top: 30px;
+  color: #171c28;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 46px;
+  padding: 0 90px;
+  border: 1px solid #d2d1d6;
+  border-radius: 6px;
+  font-size: 1.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.2s;
+  opacity: 1;
+}
+
+.btn-google:active {
+  opacity: 0.8;
+}
+
+.img-google {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px
 }

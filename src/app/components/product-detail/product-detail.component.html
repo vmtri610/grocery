@@ -5,7 +5,7 @@
       <div class="prod-preview__list">
         <div class="prod-preview__item">
           <img
-            [src]="productDetail.image"
+            [src]="cartItem.product.image"
             alt=""
             class="prod-preview__img"
           />
@@ -39,7 +39,7 @@
     <div class="form">
       <section class="prod-info">
         <h1 class="prod-info__heading">
-          {{ productDetail.name }}
+          {{ cartItem.product.name }}
         </h1>
 
         <div class="row">
@@ -51,7 +51,7 @@
                 alt=""
                 class="prod-prop__icon"
               />
-              <h4 class="prod-prop__title">{{ productDetail.rate }}  (1100 reviews)</h4>
+              <h4 class="prod-prop__title">{{ cartItem.product.rate }}  (1100 reviews)</h4>
             </div>
             <label class="form__label prod-info__label"
             >Size/Weight</label
@@ -126,7 +126,7 @@
               </div>
               <div class="prod-info__card">
                 <div class="prod-info__row">
-                  <span class="prod-info__price">{{ productDetail.price }}</span>
+                  <span class="prod-info__price">{{ cartItem.product.price }}</span>
                   <span class="prod-info__tax">10%</span>
                 </div>
                 <p class="prod-info__total-price">product</p>
@@ -176,7 +176,7 @@
         ipsum dolor sit amet, consectetur adipisicing elit. </p>
 
       <div class="image">
-        <img [src]="productDetail.image" alt="">
+        <img [src]="cartItem.product.image" alt="">
         <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</span>
       </div>
 

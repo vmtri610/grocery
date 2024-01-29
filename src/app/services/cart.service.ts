@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
+  deleteDoc,
   doc,
   Firestore,
   getDoc,
@@ -16,10 +17,10 @@ import { DocumentData } from '@angular/fire/compat/firestore';
 export class CartService {
   constructor(private db: Firestore) {}
 
-  async addNewCart(cart: Cart) {
-    // create a new cart user id = doc id
-    const cartRef = doc(this.db, 'carts', cart.id);
-    return await setDoc(cartRef, cart);
+  async addNewCart(cartItem: CartItem, cartId: string) {
+    //   add new cart with cartId and cartItem
+    const cartRef = doc(this.db, 'carts', cartId);
+    return await setDoc(cartRef, { products: [cartItem] } as Cart);
   }
 
   async addProductToCart(cartItem: CartItem, cartId: string) {
@@ -35,5 +36,15 @@ export class CartService {
       cart.products.push(cartItem);
     }
     return await updateDoc(cartRef, cart as DocumentData);
+  }
+
+  getAllProductsFromCart(cartId: string) {
+    const cartRef = doc(this.db, 'carts', cartId);
+    return getDoc(cartRef);
+  }
+
+  deleteCart(cartId: string) {
+    const cartRef = doc(this.db, 'carts', cartId);
+    return deleteDoc(cartRef);
   }
 }

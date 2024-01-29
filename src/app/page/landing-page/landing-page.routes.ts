@@ -23,6 +23,10 @@ export const LandingRoutes: Routes = [
         component: AdminPageComponent
       },
       {
+        path: 'checkout',
+        component: CheckoutPageComponent
+      },
+      {
         path: '',
         redirectTo: 'product-list',
         pathMatch: 'full',
