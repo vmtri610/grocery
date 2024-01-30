@@ -7,7 +7,7 @@ import { CartState } from '../../ngrx/states/cart.state';
 import { UserState } from '../../ngrx/states/user.state';
 import { CartItem } from '../../models/cart.model';
 import * as CartActions from '../../ngrx/actions/cart.action';
-import * as UserActions from '../../ngrx/actions/user.action';
+import { ProductState } from '../../ngrx/states/product.state';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -18,53 +18,41 @@ import { Subscription } from 'rxjs';
   styleUrl: './checkout-page.component.scss',
 })
 export class CheckoutPageComponent implements OnInit, OnDestroy {
-  subscription: Subscription[] = [];
   cartState$ = this.store.select('cart');
   cartItems: CartItem[] = [];
   cartId: string = '';
   userId$ = this.store.select('user', 'userId');
 
+  subcriptions: Subscription[] = [];
+
   constructor(
     private store: Store<{
       cart: CartState;
       user: UserState;
-    }>,
+    }>
   ) {}
 
-  ngOnDestroy(): void {
-    this.subscription.forEach((sub) => sub.unsubscribe());
-  }
-
   ngOnInit(): void {
-    this.subscription.push(
+    this.subcriptions.push(
       this.userId$.subscribe((userId) => {
         if (userId) {
-          this.cartId = userId;
           this.store.dispatch(
-            CartActions.getAllProductsFromCart({ cartId: userId }),
+            CartActions.getAllProductsFromCart({ cartId: userId })
           );
         }
       }),
-    );
-    this.subscription.push(
-      this.cartState$.subscribe((state) => {
-        this.cartItems = state.cart.products;
-      }),
-    );
 
-    this.subscription.push(
+      this.cartState$.subscribe((state) => {
+        console.log(state);
+      }),
+
       this.cartState$.subscribe((state) => {
         this.cartItems = state.cart.products;
-      }),
+      })
     );
   }
 
-  out() {
-    this.userId$.subscribe((userId) => {
-      if (userId) {
-        this.store.dispatch(CartActions.deleteCart({ cartId: userId }));
-      }
-    });
-    this.store.dispatch(UserActions.deleteUserInStore());
+  ngOnDestroy(): void {
+    this.subcriptions.forEach((subcription) => subcription.unsubscribe());
   }
 }

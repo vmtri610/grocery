@@ -7,6 +7,7 @@ import { Cart, CartItem } from '../../models/cart.model';
 const initialState: CartState = {
   cart: <Cart>{},
   isLoading: false,
+  isDeleting: false,
   error: '',
 };
 
@@ -53,19 +54,27 @@ export const cartReducer = createReducer(
     console.log(type);
     return { ...state, isLoading: false, error: error };
   }),
+
   on(CartActions.deleteCart, (state, { type }) => {
-    let newState = { ...state, isLoading: true };
-    let newCart = { ...state.cart };
-    newCart = <Cart>{};
-    newState.cart = newCart;
-    return newState;
+    console.log(type);
+    return { ...state, isDeleting: true };
   }),
   on(CartActions.deleteCartSuccess, (state, { type }) => {
     console.log(type);
-    return { ...state, isLoading: false };
+    return { ...state, isDeleting: false };
   }),
   on(CartActions.deleteCartFailure, (state, { type, error }) => {
     console.log(type);
-    return { ...state, isLoading: false, error: error };
+    return { ...state, isDeleting: false, error: error };
   }),
+
+  on(CartActions.clearStates, (state) => {
+    return {
+      ...state,
+      cart: <Cart>{},
+      isLoading: false,
+      isDeleting: false,
+      error: '',
+    };
+  })
 );

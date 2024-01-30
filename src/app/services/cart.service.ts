@@ -10,6 +10,7 @@ import {
 import { Cart, CartItem } from '../models/cart.model';
 import { Product } from '../models/product.model';
 import { DocumentData } from '@angular/fire/compat/firestore';
+import { from } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +36,7 @@ export class CartService {
     const cartSnap = await getDoc(cartRef);
     const cart = cartSnap.data() as Cart;
     const cartItemIndex = cart.products.findIndex(
-      (item) => item.product.id === cartItem.product.id,
+      (item) => item.product.id === cartItem.product.id
     );
     if (cartItemIndex > -1) {
       cart.products[cartItemIndex].quantity += cartItem.quantity;
@@ -48,7 +49,7 @@ export class CartService {
 
   getAllProductsFromCart(cartId: string) {
     const cartRef = doc(this.db, 'carts', cartId);
-    return getDoc(cartRef);
+    return from(getDoc(cartRef));
   }
 
   deleteCart(cartId: string) {
