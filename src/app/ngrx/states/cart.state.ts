@@ -2,7 +2,19 @@ import { Cart } from '../../models/cart.model';
 
 export interface CartState {
   cart: Cart;
-  isLoading: boolean;
+  isGetting: boolean;
+  isGetSuccess: boolean;
+  getErrorMessage: string;
+
   isDeleting: boolean;
-  error: string;
+  isDeleteSuccess: boolean;
+  deleteErrorMessage: string;
+
+  isCreating: boolean;
+  isCreateSuccess: boolean;
+  createErrorMessage: string;
+
+  isAdding: boolean;
+  isAddSuccess: boolean;
+  addErrorMessage: string;
 }

@@ -29,7 +29,8 @@ import { Subscription } from 'rxjs';
 export class ProductDetailComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   productState$ = this.store.select('product');
-  cartState$ = this.store.pipe(select('cart', 'cart', 'products'));
+  cartCreate$ = this.store.pipe(select('cart', 'isCreating'));
+  cartAdd$ = this.store.pipe(select('cart', 'isAdding'));
   productDetail$ = this.store.select((state) => state.product.products[0]);
   cartId: string = '';
   userId$ = this.store.select('user', 'userId');
@@ -40,7 +41,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       cart: CartState;
       user: UserState;
     }>,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
   ) {}
 
   productDetail: Product = {
@@ -67,9 +68,6 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       this.productState$.subscribe((state) => {
         console.log(state);
       }),
-      this.cartState$.subscribe((state) => {
-        console.log(state);
-      }),
       this.productDetail$.subscribe((product) => {
         if (product !== undefined) {
           this.cartItem.product = { ...product };
@@ -81,31 +79,30 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
           this.cartId = userId;
           console.log(this.cartId);
         }
-      })
+      }),
     );
   }
 
   addToCart(cartItem: CartItem, cartId: string) {
-    this.cartState$.subscribe((cart) => {
-      console.log(cart);
-      if (cart !== undefined) {
+    this.cartCreate$.subscribe((isCreating) => {
+      if (isCreating) {
         // Cart đã tồn tại trong Store
         console.log('Cart đã tồn tại trong Store');
         this.store.dispatch(
           CartActions.addProductToCart({
             cartId: cartId,
             cartItem: cartItem,
-          })
+          }),
         );
       }
-      if (!cart) {
+      if (!isCreating) {
         // Cart chưa tồn tại trong Store
         console.log('Cart chưa tồn tại trong Store');
         this.store.dispatch(
           CartAction.addNewCart({
             cartId: cartId,
             cartItem: cartItem,
-          })
+          }),
         );
       }
     });

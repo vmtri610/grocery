@@ -6,75 +6,99 @@ import { Cart, CartItem } from '../../models/cart.model';
 
 const initialState: CartState = {
   cart: <Cart>{},
-  isLoading: false,
+
+  isGetting: false,
+  isGetSuccess: false,
+  getErrorMessage: '',
+
   isDeleting: false,
-  error: '',
+  isDeleteSuccess: false,
+  deleteErrorMessage: '',
+
+  isCreating: false,
+  isCreateSuccess: false,
+  createErrorMessage: '',
+
+  isAdding: false,
+  isAddSuccess: false,
+  addErrorMessage: '',
 };
 
 export const cartReducer = createReducer(
   initialState,
   on(CartActions.addNewCart, (state, { type, cartItem, cartId }) => {
-    let newCart = { ...state.cart, products: [cartItem] };
-    let newState = { ...state, isLoading: true };
-    newState.cart = newCart;
-    return newState;
+    console.log(type);
+    return { ...state, isCreating: false };
   }),
   on(CartActions.addNewCartSuccess, (state, { type }) => {
     console.log(type);
-    return { ...state, isLoading: false };
+    return { ...state, isCreateSuccess: true, isCreating: true };
   }),
   on(CartActions.addNewCartFailure, (state, { type, error }) => {
     console.log(type);
-    return { ...state, isLoading: false, error: error };
+    return { ...state, createErrorMessage: error };
   }),
 
   on(CartActions.addProductToCart, (state, { type, cartItem }) => {
     console.log(type);
-    return { ...state, isLoading: true };
+    return { ...state, isAdding: false };
   }),
   on(CartActions.addProductToCartSuccess, (state, { type }) => {
     console.log(type);
-    return { ...state, isLoading: false };
+    return { ...state, isAddSuccess: true };
   }),
   on(CartActions.addProductToCartFailure, (state, { type, error }) => {
     console.log(type);
-    return { ...state, isLoading: false, error: error };
+    return { ...state, addErrorMessage: error };
   }),
   on(CartActions.getAllProductsFromCart, (state, { type }) => {
     console.log(type);
-    return { ...state, isLoading: true };
+    return { ...state, isGetting: false };
   }),
   on(CartActions.getAllProductsFromCartSuccess, (state, { type, products }) => {
-    let newState = { ...state, isLoading: false };
+    let newState = { ...state, isGetting: true };
     let newCart = { ...state.cart, products: products };
     newState.cart = newCart;
     return newState;
   }),
   on(CartActions.getAllProductsFromCartFailure, (state, { type, error }) => {
     console.log(type);
-    return { ...state, isLoading: false, error: error };
+    return { ...state, getErrorMessage: error };
   }),
 
   on(CartActions.deleteCart, (state, { type }) => {
     console.log(type);
-    return { ...state, isDeleting: true };
+    return { ...state, isDeleting: false };
   }),
   on(CartActions.deleteCartSuccess, (state, { type }) => {
     console.log(type);
-    return { ...state, isDeleting: false };
+    return { ...state, isDeleting: true };
   }),
   on(CartActions.deleteCartFailure, (state, { type, error }) => {
     console.log(type);
-    return { ...state, isDeleting: false, error: error };
+    return { ...state, deleteErrorMessage: error };
   }),
 
   on(CartActions.clearStates, (state) => {
     return {
       ...state,
       cart: <Cart>{},
-      isLoading: false,
+
+      isGetting: false,
+      isGetSuccess: false,
+      getErrorMessage: '',
+
       isDeleting: false,
-      error: '',
+      isDeleteSuccess: false,
+      deleteErrorMessage: '',
+
+      isCreating: false,
+      isCreateSuccess: false,
+      createErrorMessage: '',
+
+      isAdding: false,
+      isAddSuccess: false,
+      addErrorMessage: '',
     };
-  })
+  }),
 );

@@ -1,13 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BreadcrumbsComponent } from '../../components/breadcrumbs/breadcrumbs.component';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { CartState } from '../../ngrx/states/cart.state';
 import { UserState } from '../../ngrx/states/user.state';
 import { CartItem } from '../../models/cart.model';
 import * as CartActions from '../../ngrx/actions/cart.action';
-import { ProductState } from '../../ngrx/states/product.state';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -29,7 +28,7 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
     private store: Store<{
       cart: CartState;
       user: UserState;
-    }>
+    }>,
   ) {}
 
   ngOnInit(): void {
@@ -37,7 +36,7 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
       this.userId$.subscribe((userId) => {
         if (userId) {
           this.store.dispatch(
-            CartActions.getAllProductsFromCart({ cartId: userId })
+            CartActions.getAllProductsFromCart({ cartId: userId }),
           );
         }
       }),
@@ -48,7 +47,7 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
 
       this.cartState$.subscribe((state) => {
         this.cartItems = state.cart.products;
-      })
+      }),
     );
   }
 
