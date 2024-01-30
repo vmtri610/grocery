@@ -30,4 +30,8 @@ export const userReducer = createReducer(
     ...state,
     userId: userId,
   })),
+  on(UserActions.deleteUserInStore, (state) => ({
+    ...state,
+    userId: '',
+  })),
 );
