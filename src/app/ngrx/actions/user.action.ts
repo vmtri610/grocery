@@ -12,3 +12,8 @@ export const storeUserId = createAction(
   '[User] Store User Id',
   props<{ userId: string }>(),
 );
+export const deleteUserInStore = createAction('[User] Delete User In Store');
+export const loadUser = createAction('[User] Delete User In Store Success');
+export const loadUserSuccess = createAction(
+  '[User] Delete User In Store Failure',
+);

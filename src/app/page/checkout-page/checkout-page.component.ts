@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BreadcrumbsComponent } from '../../components/breadcrumbs/breadcrumbs.component';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
@@ -7,7 +7,8 @@ import { CartState } from '../../ngrx/states/cart.state';
 import { UserState } from '../../ngrx/states/user.state';
 import { CartItem } from '../../models/cart.model';
 import * as CartActions from '../../ngrx/actions/cart.action';
-import { ProductState } from '../../ngrx/states/product.state';
+import * as UserActions from '../../ngrx/actions/user.action';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-checkout-page',
@@ -16,7 +17,8 @@ import { ProductState } from '../../ngrx/states/product.state';
   templateUrl: './checkout-page.component.html',
   styleUrl: './checkout-page.component.scss',
 })
-export class CheckoutPageComponent implements OnInit {
+export class CheckoutPageComponent implements OnInit, OnDestroy {
+  subscription: Subscription[] = [];
   cartState$ = this.store.select('cart');
   cartItems: CartItem[] = [];
   cartId: string = '';
@@ -29,20 +31,40 @@ export class CheckoutPageComponent implements OnInit {
     }>,
   ) {}
 
+  ngOnDestroy(): void {
+    this.subscription.forEach((sub) => sub.unsubscribe());
+  }
+
   ngOnInit(): void {
+    this.subscription.push(
+      this.userId$.subscribe((userId) => {
+        if (userId) {
+          this.cartId = userId;
+          this.store.dispatch(
+            CartActions.getAllProductsFromCart({ cartId: userId }),
+          );
+        }
+      }),
+    );
+    this.subscription.push(
+      this.cartState$.subscribe((state) => {
+        this.cartItems = state.cart.products;
+      }),
+    );
+
+    this.subscription.push(
+      this.cartState$.subscribe((state) => {
+        this.cartItems = state.cart.products;
+      }),
+    );
+  }
+
+  out() {
     this.userId$.subscribe((userId) => {
       if (userId) {
-        this.store.dispatch(
-          CartActions.getAllProductsFromCart({ cartId: userId }),
-        );
+        this.store.dispatch(CartActions.deleteCart({ cartId: userId }));
       }
     });
-    this.cartState$.subscribe((state) => {
-      console.log(state);
-    });
-
-    this.cartState$.subscribe((state) => {
-      this.cartItems = state.cart.products;
-    });
+    this.store.dispatch(UserActions.deleteUserInStore());
   }
 }

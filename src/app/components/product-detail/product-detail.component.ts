@@ -94,29 +94,31 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   }
 
   addToCart(cartItem: CartItem, cartId: string) {
-    this.cartState$.subscribe((cart) => {
-      console.log(cart);
-      if (cart !== undefined) {
-        // Cart đã tồn tại trong Store
-        console.log('Cart đã tồn tại trong Store');
-        this.store.dispatch(
-          CartActions.addProductToCart({
-            cartId: cartId,
-            cartItem: cartItem,
-          }),
-        );
-      }
-      if (!cart) {
-        // Cart chưa tồn tại trong Store
-        console.log('Cart chưa tồn tại trong Store');
-        this.store.dispatch(
-          CartAction.addNewCart({
-            cartId: cartId,
-            cartItem: cartItem,
-          }),
-        );
-      }
-    });
+    this.subscription.push(
+      this.cartState$.subscribe((cart) => {
+        console.log(cart);
+        if (cart !== undefined) {
+          // Cart đã tồn tại trong Store
+          console.log('Cart đã tồn tại trong Store');
+          this.store.dispatch(
+            CartActions.addProductToCart({
+              cartId: cartId,
+              cartItem: cartItem,
+            }),
+          );
+        }
+        if (!cart) {
+          // Cart chưa tồn tại trong Store
+          console.log('Cart chưa tồn tại trong Store');
+          this.store.dispatch(
+            CartAction.addNewCart({
+              cartId: cartId,
+              cartItem: cartItem,
+            }),
+          );
+        }
+      }),
+    );
   }
 
   ngOnDestroy(): void {

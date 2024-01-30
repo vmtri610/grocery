@@ -18,9 +18,16 @@ export class CartService {
   constructor(private db: Firestore) {}
 
   async addNewCart(cartItem: CartItem, cartId: string) {
-    //   add new cart with cartId and cartItem
     const cartRef = doc(this.db, 'carts', cartId);
-    return await setDoc(cartRef, { products: [cartItem] } as Cart);
+    let total = cartItem.product.price * cartItem.quantity;
+    return await setDoc(
+      cartRef,
+      {
+        products: [cartItem],
+        total,
+      },
+      { merge: true },
+    );
   }
 
   async addProductToCart(cartItem: CartItem, cartId: string) {
@@ -35,6 +42,7 @@ export class CartService {
     } else {
       cart.products.push(cartItem);
     }
+    cart.total += cartItem.product.price * cartItem.quantity;
     return await updateDoc(cartRef, cart as DocumentData);
   }
 
@@ -44,7 +52,6 @@ export class CartService {
   }
 
   deleteCart(cartId: string) {
-    const cartRef = doc(this.db, 'carts', cartId);
-    return deleteDoc(cartRef);
+    return deleteDoc(doc(this.db, 'carts', cartId));
   }
 }

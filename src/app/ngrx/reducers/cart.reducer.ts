@@ -55,7 +55,9 @@ export const cartReducer = createReducer(
   }),
   on(CartActions.deleteCart, (state, { type }) => {
     let newState = { ...state, isLoading: true };
-    newState.cart = <Cart>{};
+    let newCart = { ...state.cart };
+    newCart = <Cart>{};
+    newState.cart = newCart;
     return newState;
   }),
   on(CartActions.deleteCartSuccess, (state, { type }) => {
