@@ -25,7 +25,7 @@ export class HeaderComponent implements OnInit {
     private store: Store<{
       cart: CartState;
       user: UserState;
-    }>,
+    }>
   ) {}
 
   ngOnInit(): void {
@@ -39,7 +39,8 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.auth.signOutWithGoogle();
-    this.router.navigate(['/sign-in']).then();
-    this.store.dispatch(CartAction.deleteCart({ cartId: this.cartId }));
+    this.router.navigate(['/sign-in']).then(() => {
+      this.store.dispatch(CartAction.deleteCart({ cartId: this.cartId }));
+    });
   }
 }

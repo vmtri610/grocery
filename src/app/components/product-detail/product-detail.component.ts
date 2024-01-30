@@ -27,7 +27,7 @@ import { Subscription } from 'rxjs';
   styleUrl: './product-detail.component.scss',
 })
 export class ProductDetailComponent implements OnInit, OnDestroy {
-  subscription: Subscription[] = [];
+  subscriptions: Subscription[] = [];
   productState$ = this.store.select('product');
   cartState$ = this.store.pipe(select('cart', 'cart', 'products'));
   productDetail$ = this.store.select((state) => state.product.products[0]);
@@ -40,7 +40,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
       cart: CartState;
       user: UserState;
     }>,
-    private activatedRoute: ActivatedRoute,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   productDetail: Product = {
@@ -59,37 +59,29 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit(): void {
-    this.subscription.push(
+    const productId = this.activatedRoute.snapshot.params['id'];
+
+    this.store.dispatch(ProductActions.getById({ id: productId }));
+
+    this.subscriptions.push(
       this.productState$.subscribe((state) => {
         console.log(state);
       }),
-    );
-
-    this.subscription.push(
       this.cartState$.subscribe((state) => {
         console.log(state);
       }),
-    );
-
-    const productId = this.activatedRoute.snapshot.params['id'];
-    this.store.dispatch(ProductActions.getById({ id: productId }));
-
-    this.subscription.push(
       this.productDetail$.subscribe((product) => {
         if (product !== undefined) {
           this.cartItem.product = { ...product };
           console.log(this.cartItem);
         }
       }),
-    );
-
-    this.subscription.push(
       this.userId$.subscribe((userId) => {
         if (userId !== undefined) {
           this.cartId = userId;
           console.log(this.cartId);
         }
-      }),
+      })
     );
   }
 
@@ -103,7 +95,7 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
           CartActions.addProductToCart({
             cartId: cartId,
             cartItem: cartItem,
-          }),
+          })
         );
       }
       if (!cart) {
@@ -113,14 +105,13 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
           CartAction.addNewCart({
             cartId: cartId,
             cartItem: cartItem,
-          }),
+          })
         );
       }
     });
   }
 
   ngOnDestroy(): void {
-    //   unsubscribe
-    this.subscription.forEach((sub) => sub.unsubscribe());
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
   }
 }
